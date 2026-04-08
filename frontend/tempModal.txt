@@ -1,0 +1,327 @@
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { X, Check } from 'lucide-react';
+import CustomDropdown from '../ui/CustomDropdown';
+import MapPicker from './MapPicker';
+import ImageUpload from './ImageUpload';
+
+const PropertyModal = ({ isOpen, onClose, onSave, editingProperty }) => {       
+  const [formData, setFormData] = useState({
+    id: '',
+    title: '',
+    description: '',
+    price: '',
+    pricePerSqft: '',
+    location: '',
+    city: '',
+    state: '',
+    pincode: '',
+    coordinates: ['', ''], // [lat, lng]
+    plotSize: '',
+    sizeUnit: 'sq.ft',
+    facing: 'North',
+    propertyType: 'Residential Plot',
+    imageUrl: '',
+    isFeatured: false,
+    verified: false,
+    cornerPlot: false,
+    gatedCommunity: false,
+    tags: []
+  });
+
+  const [images, setImages] = useState([]);
+
+  useEffect(() => {
+    if (editingProperty) {
+      setFormData({
+        ...editingProperty,
+        coordinates: editingProperty.coordinates || ['', '']
+      });
+      if (editingProperty.imageUrl) setImages([editingProperty.imageUrl]);
+    } else {
+      setFormData({
+        id: Date.now().toString(),
+        title: '',
+        description: '',
+        price: '',
+        pricePerSqft: '',
+        location: '',
+        city: '',
+        state: '',
+        pincode: '',
+        coordinates: ['', ''],
+        plotSize: '',
+        sizeUnit: 'sq.ft',
+        facing: 'North',
+        propertyType: 'Residential Plot',
+        imageUrl: '',
+        isFeatured: false,
+        verified: false,
+        cornerPlot: false,
+        gatedCommunity: false,
+        tags: []
+      });
+      setImages([]);
+    }
+  }, [editingProperty, isOpen]);
+
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value
+    }));
+  };
+
+  const setLocation = (latlng) => {
+    setFormData(prev => ({ ...prev, coordinates: latlng }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!formData.coordinates || !formData.coordinates[0] || !formData.coordinates[1]) {
+      alert("Please select a location on the map.");
+      return;
+    }
+    
+    // Auto set imageUrl from first uploaded image
+    const finalImageUrl = images.length > 0 ? images[0] : formData.imageUrl;
+
+    onSave({
+      ...formData,
+      imageUrl: finalImageUrl,
+      price: parseFloat(formData.price) || 0,
+      pricePerSqft: parseFloat(formData.pricePerSqft) || 0,
+      tags: [
+        formData.propertyType,
+        formData.cornerPlot ? "Corner Plot" : null,
+        formData.gatedCommunity ? "Gated Community" : null
+      ].filter(Boolean)
+    });
+    onClose();
+  };
+
+  if (!isOpen) return null;
+
+  const facingOptions = ['North', 'South', 'East', 'West', 'North-East', 'North-West', 'South-East', 'South-West'];
+  const unitOptions = ['sq.ft', 'sq.yd', 'acres', 'hectares', 'cents'];
+  const typeOptions = ['Residential Plot', 'Commercial Plot', 'Agricultural Land', 'Industrial Land'];
+
+  const handleManualSubmit = () => {
+    document.getElementById('hidden-submit-btn').click();
+  };
+
+  return (
+    <AnimatePresence>
+      <motion.div
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: 50 }}
+        transition={{ duration: 0.3, ease: 'easeInOut' }}
+        className="fixed inset-0 bg-white z-[200] overflow-y-auto"
+      >
+        {/* Sticky Header */}
+        <div className="sticky top-0 flex items-center justify-between px-6 md:px-8 py-4 border-b border-[#E9E4DC] bg-white z-[210]">
+          <button 
+            type="button" 
+            onClick={onClose}
+            className="p-2 text-gray-400 hover:text-black hover:bg-gray-50 rounded-full transition-colors flex items-center justify-center"
+          >
+            <X size={24} />
+          </button>
+          
+          <h2 className="text-xl md:text-2xl font-serif text-[#111111] absolute left-1/2 -translate-x-1/2">
+            {editingProperty ? 'Edit Property' : 'Add New Plot'}
+          </h2>
+          
+          <button 
+            type="button"
+            onClick={handleManualSubmit}
+            className="px-6 py-2.5 bg-[#111] text-white text-[13px] font-semibold uppercase tracking-wider rounded border border-[#111] hover:bg-[#C6A769] hover:border-[#C6A769] transition-all flex items-center gap-2"
+          >
+            <Check size={16} /> <span className="hidden sm:inline">Save Plot</span>
+          </button>
+        </div>
+
+        {/* Form Content */}
+        <div className="max-w-5xl mx-auto py-10 px-6 space-y-12">
+          <form id="property-form" onSubmit={handleSubmit} className="space-y-12">
+            
+            {/* Title & Image Layout */}
+            <section className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+              <div className="space-y-6">
+                <div>
+                  <h3 className="text-sm uppercase tracking-widest text-[#C6A769] font-bold mb-6">Basic Details</h3>
+                  <label className="block text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wide">Property Title *</label>
+                  <input 
+                    required 
+                    name="title" 
+                    value={formData.title} 
+                    onChange={handleChange} 
+                    className="w-full bg-[#f8f7f5] border border-[#E9E4DC] focus:bg-white rounded-lg px-4 py-3.5 text-[15px] focus:outline-none focus:ring-2 focus:ring-[#C6A769] transition" 
+                    placeholder="e.g. Premium Lakeview Plot in Indiranagar" 
+                  />
+                </div>
+                
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wide">Price (₹) *</label>
+                    <input 
+                      required 
+                      type="number" 
+                      name="price" 
+                      value={formData.price} 
+                      onChange={handleChange} 
+                      className="w-full bg-[#f8f7f5] border border-[#E9E4DC] focus:bg-white rounded-lg px-4 py-3.5 text-[15px] focus:outline-none focus:ring-2 focus:ring-[#C6A769] transition" 
+                      placeholder="15000000" 
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wide">Price Per Sq.Ft</label>
+                    <input 
+                      type="number" 
+                      name="pricePerSqft" 
+                      value={formData.pricePerSqft} 
+                      onChange={handleChange} 
+                      className="w-full bg-[#f8f7f5] border border-[#E9E4DC] focus:bg-white rounded-lg px-4 py-3.5 text-[15px] focus:outline-none focus:ring-2 focus:ring-[#C6A769] transition" 
+                      placeholder="5000" 
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wide">Description</label>
+                  <textarea 
+                    name="description" 
+                    value={formData.description} 
+                    onChange={handleChange} 
+                    rows={4} 
+                    className="w-full bg-[#f8f7f5] border border-[#E9E4DC] focus:bg-white rounded-lg px-4 py-3 text-[15px] focus:outline-none focus:ring-2 focus:ring-[#C6A769] transition block resize-none" 
+                    placeholder="Brief description of the property..."
+                  ></textarea>
+                </div>
+              </div>
+
+              <div>
+                <h3 className="text-sm uppercase tracking-widest text-[#C6A769] font-bold mb-6">Property Images</h3>
+                <ImageUpload images={images} setImages={setImages} />
+              </div>
+            </section>
+
+            <hr className="border-[#E9E4DC]" />
+
+            {/* Land Details */}
+            <section>
+              <h3 className="text-sm uppercase tracking-widest text-[#C6A769] font-bold mb-6">Land Details</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+                <div>
+                  <label className="block text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wide">Plot Size *</label>
+                  <input 
+                    required 
+                    type="number" 
+                    name="plotSize" 
+                    value={formData.plotSize} 
+                    onChange={handleChange} 
+                    className="w-full bg-[#f8f7f5] border border-[#E9E4DC] focus:bg-white rounded-lg px-4 py-3.5 text-[15px] focus:outline-none focus:ring-2 focus:ring-[#C6A769] transition" 
+                    placeholder="Size" 
+                  />
+                </div>
+                
+                <div className="relative z-40">
+                  <label className="block text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wide">Size Unit</label>
+                  <CustomDropdown 
+                    options={unitOptions} 
+                    value={formData.sizeUnit} 
+                    onChange={(val) => setFormData(prev => ({...prev, sizeUnit: val}))} 
+                    placeholder="Unit" 
+                  />
+                </div>
+
+                <div className="relative z-30">
+                  <label className="block text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wide">Facing</label>
+                  <CustomDropdown 
+                    options={facingOptions} 
+                    value={formData.facing} 
+                    onChange={(val) => setFormData(prev => ({...prev, facing: val}))} 
+                    placeholder="Facing" 
+                  />
+                </div>
+
+                <div className="relative z-20">
+                  <label className="block text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wide">Type</label>
+                  <CustomDropdown 
+                    options={typeOptions} 
+                    value={formData.propertyType} 
+                    onChange={(val) => setFormData(prev => ({...prev, propertyType: val}))} 
+                    placeholder="Type" 
+                  />
+                </div>
+              </div>
+            </section>
+
+            <hr className="border-[#E9E4DC]" />
+
+            {/* Location & Map Picker */}
+            <section>
+              <h3 className="text-sm uppercase tracking-widest text-[#C6A769] font-bold mb-6">Property Location</h3>
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div className="md:col-span-2">
+                  <label className="block text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wide">Address / Area *</label>
+                  <input 
+                    required 
+                    name="location" 
+                    value={formData.location} 
+                    onChange={handleChange} 
+                    className="w-full bg-[#f8f7f5] border border-[#E9E4DC] focus:bg-white rounded-lg px-4 py-3.5 text-[15px] focus:outline-none focus:ring-2 focus:ring-[#C6A769] transition" 
+                    placeholder="e.g. Indiranagar 1st Stage" 
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wide">City</label>
+                  <input 
+                    name="city" 
+                    value={formData.city} 
+                    onChange={handleChange} 
+                    className="w-full bg-[#f8f7f5] border border-[#E9E4DC] focus:bg-white rounded-lg px-4 py-3.5 text-[15px] focus:outline-none focus:ring-2 focus:ring-[#C6A769] transition" 
+                    placeholder="City" 
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wide">Pin on Map (Required) *</label>
+                {!formData.coordinates[0] && (
+                  <p className="text-sm text-red-500 mb-3">Please select a location on the map</p>
+                )}
+                <MapPicker location={formData.coordinates} setLocation={setLocation} />
+              </div>
+            </section>
+
+            <hr className="border-[#E9E4DC]" />
+
+            {/* Features / Amenities */}
+            <section>
+              <h3 className="text-sm uppercase tracking-widest text-[#C6A769] font-bold mb-6">Tags & Features</h3>
+              <div className="flex flex-wrap gap-8">
+                {['isFeatured', 'verified', 'cornerPlot', 'gatedCommunity'].map(tag => (
+                  <label key={tag} className="flex items-center gap-3 cursor-pointer group">
+                    <div className={`w-5 h-5 rounded flex items-center justify-center transition border ${formData[tag] ? 'bg-[#111] border-[#111]' : 'border-gray-300 bg-white group-hover:border-[#C6A769]'}`}>
+                      {formData[tag] && <Check size={14} className="text-white" />}
+                    </div>
+                    <span className="text-[14px] font-medium text-gray-700 capitalize">{tag.replace(/([A-Z])/g, ' $1').trim()}</span>
+                    <input type="checkbox" name={tag} checked={formData[tag]} onChange={handleChange} className="hidden" />
+                  </label>
+                ))}
+              </div>
+            </section>
+
+            <button type="submit" id="hidden-submit-btn" className="hidden">Submit</button>
+          </form>
+        </div>
+      </motion.div>
+    </AnimatePresence>
+  );
+};
+
+export default PropertyModal;
