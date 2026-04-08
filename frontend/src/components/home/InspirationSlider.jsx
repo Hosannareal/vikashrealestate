@@ -4,9 +4,9 @@ import { ChevronRight, ChevronLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const plots = [
-  { id: 1, title: 'Upcoming Premium Plots', subtitle: 'Invest early in high-growth zones.', img: './dist/assets/images/property-1.png' },
-  { id: 2, title: 'Riverside Enclave', subtitle: 'Serene locations for your dream home.', img: './dist/assets/images/property-5.png' },
-  { id: 3, title: 'Valley Views', subtitle: 'Plots surrounded by nature.', img: './dist/assets/images/property-4.png' }
+  { id: 1, title: 'Upcoming Premium Plots', subtitle: 'Invest early in high-growth zones.', img: '/assets/images/property-1.png' },
+  { id: 2, title: 'Riverside Enclave', subtitle: 'Serene locations for your dream home.', img: '/assets/images/property-5.png' },
+  { id: 3, title: 'Valley Views', subtitle: 'Plots surrounded by nature.', img: '/assets/images/property-4.png' }
 ];
 
 const InspirationSlider = () => {
