@@ -1,0 +1,391 @@
+================================================================================
+                    VIKASH REAL ESTATE - WEBSITE PAGES GUIDE
+================================================================================
+
+This document outlines all the pages supported by the Vikash Real Estate website
+and describes what each page does.
+
+================================================================================
+1. MAIN PAGES
+================================================================================
+
+1.1 HOME PAGE (Route: /)
+    File: frontend/src/pages/Home.jsx
+    Purpose: Landing page that showcases the company's offerings
+    Features:
+    - Hero carousel with auto-rotating background images
+    - Hero search bar with query parameter routing
+    - "Explore Plots" and "Request Site Visit" CTA buttons
+    - Services section with 7 clickable service cards
+    - Why Choose Us section with animated counters
+    - Newly Launched Projects grid
+    - Coming Soon projects showcase
+    - Inspiration Slider for upcoming plots
+    - Explore By Cities section
+    - Luxury Explore Grid
+    - Collection Grid
+    - Testimonials section
+    - Section dividers for visual hierarchy
+
+1.2 LISTINGS/PLOTS PAGE (Routes: /plots, /rent)
+    File: frontend/src/pages/ListingPage.jsx
+    Purpose: Browse and filter properties
+    Features:
+    - Multiple view modes: Grid, List, Map
+    - Sorting options: Featured, Newly Launched, Coming Soon, Price (Asc/Desc)
+    - Filters by: Location, Price Range, Property Type, Status
+    - Search bar with location search
+    - Pagination for browsing results
+    - URL-driven filtering (query parameters: q, city, view, sort, status)
+    - Property cards with key information
+    - Map view with marker clusters
+    - Click through to property details
+
+1.3 PLOT DETAIL PAGE (Routes: /plot/:id, /plots/:id)
+    File: frontend/src/pages/PlotDetail.jsx
+    Purpose: Display detailed information about a specific property
+    Features:
+    - Image carousel with navigation
+    - Interactive Leaflet map showing property location
+    - Property specifications and amenities
+    - Accordion sections with expandable details
+    - Share, Favorite, and Contact options
+    - Property description and highlights
+    - Related properties or recommendations
+
+1.4 PROJECTS PAGE (Route: /projects)
+    File: frontend/src/pages/Projects.jsx
+    Purpose: Showcase premium development projects
+    Features:
+    - Project listing with descriptions
+    - Project details including typology and location
+    - Possession date information
+    - Pricing details
+    - Brochure download functionality
+    - Contact sales team option
+    - Project images and highlights
+
+1.5 OUR AGENTS PAGE (Route: /agents)
+    File: frontend/src/pages/OurAgentsPage.jsx
+    Purpose: Display all real estate agents with filtering
+    Features:
+    - Agent cards with photos and specialties
+    - Filter by: Agent location, Property type, Plot size, Price range, Listing type
+    - Agent performance metrics
+    - Quick contact options
+    - Click through to individual agent profiles
+
+1.6 AGENT DETAIL PAGE (Route: /agents/:id)
+    File: frontend/src/pages/AgentDetailPage.jsx
+    Purpose: Display detailed information about a specific agent
+    Features:
+    - Agent profile with full details
+    - Office location and contact information
+    - Agent specialties and expertise
+    - List of active property listings by agent
+    - Direct contact form to reach agent
+    - Agent performance statistics
+
+1.7 CONTACT US PAGE (Route: /contact)
+    File: frontend/src/pages/ContactUsPage.jsx
+    Purpose: Main contact form to reach the company
+    Features:
+    - Contact form with Name, Email, Phone, Agent Selection, Message
+    - Multiple office locations (Mumbai, Delhi, Bangalore with addresses)
+    - Message field auto-prefill based on query params (?type=investment / ?type=legal)
+    - Office contact information
+    - Display of office hours
+    - Office location directory
+
+1.8 REGISTER PAGE (Route: /register)
+    File: frontend/src/pages/RegisterPage.jsx
+    Purpose: User account registration
+    Features:
+    - Email input with validation
+    - Password field with strength validation
+    - Account creation functionality
+    - Form validation with error messages
+    - Link to login page
+
+1.9 SELL PROPERTY PAGE (Routes: /sell, /resale)
+    File: frontend/src/pages/SellPage.jsx
+    Purpose: Submit property for sale
+    Features:
+    - Form to list property for sale
+    - Collects owner name, phone, property location, type, and description
+    - Property type selection dropdown
+    - Form validation and submission
+    - Success confirmation page
+
+1.10 PROPERTY VALUATION PAGE (Route: /valuation)
+    File: frontend/src/pages/ValuationPage.jsx
+    Purpose: Request property valuation service
+    Features:
+    - Valuation request form
+    - Collects name, phone, location, property type, message
+    - Property type dropdown selection
+    - Form validation
+    - Success confirmation with checkmark icon
+
+1.11 ADVANCE BOOKING PAGE (Route: /advance-booking)
+    File: frontend/src/pages/AdvanceBookingPage.jsx
+    Purpose: Secure early access to upcoming plots
+    Features:
+    - Advance booking reservation form
+    - Dark-themed interface
+    - Collects name, phone, plot interest, budget
+    - Budget range selection
+    - Form submission and confirmation
+    - Early bird access benefits
+
+================================================================================
+2. ABOUT & COMPANY PAGES (located in frontend/src/pages/about/)
+================================================================================
+
+2.1 ABOUT US PAGE (Route: /about)
+    File: frontend/src/pages/about/AboutUsPage.jsx
+    Purpose: Company information page
+    Features:
+    - Company overview and history
+    - Campion and Company introduction (Boston luxury real estate firm)
+    - Founded 2007
+    - Market leadership credentials
+    - Company values and mission statement
+
+2.2 OUR STORY PAGE (Route: /our-story)
+    File: frontend/src/pages/about/OurStoryPage.jsx
+    Purpose: Detailed company history and journey
+    Features:
+    - Timeline view of company milestones
+    - Year-by-year development from 2007 to 2025
+    - Key achievements and expansions
+    - Record-breaking sales highlights
+    - Growth statistics and company evolution
+    - Founding story and vision
+
+2.3 WHY CHOOSE US PAGE (Route: /why-choose-us)
+    File: frontend/src/pages/about/WhyChooseUsPage.jsx
+    Purpose: Explain company value proposition
+    Features:
+    - Core strengths and differentiators
+    - Expertise in luxury market
+    - Client commitment and service quality
+    - Market analysis capabilities
+    - Investment in technology and tools
+    - Team credentials and experience
+
+2.4 TESTIMONIALS PAGE (Route: /testimonials)
+    File: frontend/src/pages/about/TestimonialsPage.jsx
+    Purpose: Customer success stories and reviews
+    Features:
+    - Carousel of client testimonials
+    - Quote highlights from satisfied customers
+    - Transaction type information (sellers, buyers, developers, investors)
+    - Transaction amounts
+    - Client names and testimonial dates
+    - Navigation between testimonials
+
+2.5 LOCATION PAGE (Route: /location)
+    File: frontend/src/pages/about/LocationPage.jsx
+    Purpose: Office location and contact information
+    Features:
+    - Interactive Leaflet map showing office locations
+    - Multiple office addresses
+    - Contact details for each office
+    - Office hours information
+    - Directions and navigation
+    - Contact phone numbers
+
+================================================================================
+3. SERVICES PAGES (located in frontend/src/pages/services/)
+================================================================================
+
+3.1 PLOT RESALE PAGE (Routes: /resale, /services/plot-resale)
+    File: frontend/src/pages/services/PlotResalePage.jsx
+    Purpose: Submit property for resale listing
+    Features:
+    - Resale property submission form
+    - Image upload functionality
+    - Owner details collection (name, phone)
+    - Property type selection
+    - Property address entry
+    - Message/description field
+    - Form validation and submission
+    - Success confirmation
+
+3.2 CMA REQUEST PAGE (Routes: /services/plot-resale/request-cma, /services/schedule-visit)
+    File: frontend/src/pages/services/CMARequestPage.jsx
+    Purpose: Request Comparative Market Analysis (CMA) valuation
+    Features:
+    - CMA request form
+    - Personal details collection
+    - Property address input
+    - City selection dropdown
+    - Area/locality input
+    - Property type selection
+    - Message/notes field
+    - Form submission and confirmation
+    - Expert market analysis request
+
+================================================================================
+4. BOOKING & REQUEST PAGES
+================================================================================
+
+4.1 SITE VISIT REQUEST PAGE (Routes: /request-site-visit, /services/schedule-visit)
+    File: frontend/src/pages/SiteVisitRequestPage.jsx
+    Purpose: Schedule property site visits
+    Features:
+    - Site visit booking form
+    - Full name, email, phone collection
+    - Preferred date and time selection
+    - Property interest specification
+    - Number of visitors field
+    - Message/notes for visit coordinator
+    - Form validation
+    - Confirmation and booking reference
+
+================================================================================
+5. ADMIN PAGES (located in frontend/src/pages/admin/)
+================================================================================
+
+5.1 ADMIN PLOTS DASHBOARD (Route: /admin/plots)
+    File: frontend/src/pages/AdminListingPage.jsx
+    Purpose: Manage property listings (admin panel)
+    Features:
+    - Full CRUD operations (Create, Read, Update, Delete)
+    - Grid, List, and Map view modes
+    - Filtering by property status, type, location
+    - Sorting by price, date added, name
+    - Pagination for large datasets
+    - Add new property modal
+    - Edit existing properties
+    - Delete properties with confirmation
+    - Search functionality
+    - Data persistence with localStorage
+    - Bulk operations support
+
+5.2 ADMIN AGENTS DASHBOARD (Route: /admin/agents)
+    File: frontend/src/pages/admin/AdminAgentsPage.jsx
+    Purpose: Manage agent profiles (admin panel)
+    Features:
+    - Full agent management
+    - Add new agent functionality
+    - Edit agent details (name, specialization, contact)
+    - Delete agent profiles
+    - Filter by agent status (active/inactive)
+    - Filter by specialization
+    - Search agents by name or contact
+    - Agent table with key information
+    - Agent statistics and performance metrics
+    - Confirm delete with modal
+    - Data persistence
+
+================================================================================
+6. KEY FEATURES ACROSS ALL PAGES
+================================================================================
+
+NAVIGATION:
+- React Router v6 integration for smooth client-side routing
+- Navigation bar with links to all main pages
+- Mobile menu for responsive navigation
+- Breadcrumb navigation on detail pages
+- Search bar accessible from multiple pages
+
+MAPS & LOCATION:
+- React Leaflet integration for interactive maps
+- Marker clusters for displaying multiple properties
+- Map view toggle on listing and admin pages
+- Location-based filtering and search
+- Interactive property location display
+
+FILTERING & SEARCH:
+- Location search with autocomplete
+- Price range filtering
+- Property type filtering (plots, rentals, resale)
+- Status filtering (Newly Launched, Coming Soon, Featured)
+- Plot size and amenity filtering
+- Agent filtering by specialization and area
+- Combined multi-filter support with URL parameters
+
+FORMS & VALIDATION:
+- Email validation on all contact forms
+- Phone number validation
+- Required field validation
+- Password strength indication
+- Real-time error messages
+- Form submission with backend connectivity
+- Auto-prefill capabilities based on context
+
+VIEWS & DISPLAY MODES:
+- Grid view for property browsing
+- List view for detailed comparison
+- Map view for location-based exploration
+- Card layouts with key information
+- Carousel components for image galleries
+- Modal dialogs for property details and agent contact
+
+ANIMATIONS & UX:
+- Framer Motion animations for smooth transitions
+- Entrance animations on component load
+- Hover effects on interactive elements
+- Carousel fade/slide effects
+- Counter animations for statistics
+- Viewport-triggered animations
+
+STATE MANAGEMENT:
+- Zustand store for map interactions
+- React hooks for local component state
+- localStorage for admin dashboard persistence
+- Context-based prop passing for dynamic content
+- URL query parameters for filter state persistence
+
+RESPONSIVE DESIGN:
+- Mobile-first approach with Tailwind CSS
+- Responsive grid layouts
+- Mobile menu for smaller screens
+- Adaptive form layouts
+- Touch-friendly button sizes
+- Responsive map sizing
+
+================================================================================
+7. WORKFLOW & NAVIGATION PATHS
+================================================================================
+
+VISITOR JOURNEY:
+Home → Browse Plots (ListingPage) → View Plot Details → Contact Agent or Request Site Visit
+
+AGENT DISCOVERY:
+Home → Visit Agents Page → View Agent Profile → Contact Agent
+
+INVESTMENT ENQUIRY:
+Home → Services (from InfoCategory) → Contact Page (with prefilled investment type)
+
+PROPERTY SELLING:
+Home → Services (from InfoCategory) → Sell Page → Submit Property
+
+PROPERTY VALUATION:
+Home → Services (from InfoCategory) → Valuation Page → Request Valuation
+
+ADVANCED BOOKING:
+Home → Newly Launched Section → Advance Booking Page
+
+ADMIN MANAGEMENT:
+Admin Dashboard → Manage Plots → Create/Edit/Delete Properties
+Admin Dashboard → Manage Agents → Create/Edit/Delete Agents
+
+================================================================================
+8. INTEGRATION POINTS
+================================================================================
+
+All pages integrate with:
+- Navigation component for consistent header/footer
+- Global styling with Tailwind CSS
+- Framer Motion for animations
+- React Router for routing
+- Mock data (can be connected to backend API)
+- Leaflet maps for location display
+- Image upload handlers (on relevant forms)
+- Form submission handlers
+- Local storage for admin data persistence
+
+================================================================================
